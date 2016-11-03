@@ -11,7 +11,7 @@ python3 -m pip install JustWatch
 ```python
 from justwatch import JustWatch
 
-just_watch = JustWatch()
+just_watch = JustWatch(country='US')
 
 results = just_watch.search_for_item(query='the matrix')
 ```
@@ -37,5 +37,5 @@ results_by_multiple = just_watch.search_for_item(
     content_types=['movie'], 
     monetization_types=['free'])
 ```
-
-#### Read api_payload.txt for more information
+#### Note: Default location is AU
+##### Read api_payload.txt for more information
