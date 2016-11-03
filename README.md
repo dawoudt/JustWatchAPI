@@ -37,5 +37,5 @@ results_by_multiple = just_watch.search_for_item(
     content_types=['movie'], 
     monetization_types=['free'])
 ```
-#### Note: Default location is AU
-##### Read api_payload.txt for more information
+##### Note: Default location is AU
+#### Read api_payload.txt for more information
