@@ -52,7 +52,7 @@
 		drm - drama
 		msc - music and musical
 		hrr - horror
-		hst - historu
+		hst - history
 		fnt - fantasy
 		trl - mystery and thriller 
 		war - war
