@@ -9,7 +9,7 @@ python3 -m pip install JustWatch
 ## How To 
 ####search for an item
 ```python
-from justwatchapi import JustWatch
+from justwatch import JustWatch
 
 just_watch = JustWatch()
 
