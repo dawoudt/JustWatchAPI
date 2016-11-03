@@ -2,6 +2,10 @@
 
 JustWatch.com Python 3 API
 
+## Install
+```bash
+python3 -m pip install JustWatch
+```
 ## How To 
 ####search for an item
 ```python
