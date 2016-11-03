@@ -1,9 +1,11 @@
 import requests
+from babel import Locale
 
 class JustWatch:
 	def __init__(self, country='AU', **kwargs):
 		self.kwargs = kwargs
 		self.country = country
+		self.language = Locale.parse('und_{}'.format(self.country)).language
 	def search_for_item(self, **kwargs):
 		if kwargs:
 			self.kwargs = kwargs
@@ -29,6 +31,6 @@ class JustWatch:
 			else:
 				print('{} is not a valid keyword'.format(key))
 		header = {'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_3) AppleWebKit/537.36(KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36'}
-		api_url = 'https://api.justwatch.com/titles/en_{}/popular'.format(self.country)
+		api_url = 'https://api.justwatch.com/titles/{}_{}/popular'.format(self.language, self.country)
 		r = requests.post(api_url, json=payload, headers=header)
 		return r.json()
