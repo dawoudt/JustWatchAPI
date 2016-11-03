@@ -53,7 +53,8 @@ setup(
     long_description=desc,
     platforms='any',
     install_requires=[
-        'requests>=2.0'
+        'requests>=2.0',
+        'babel>=2.3.3'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
