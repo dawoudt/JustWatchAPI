@@ -6,6 +6,7 @@ class JustWatch:
 		self.kwargs = kwargs
 		self.country = country
 		self.language = Locale.parse('und_{}'.format(self.country)).language
+		
 	def search_for_item(self, **kwargs):
 		if kwargs:
 			self.kwargs = kwargs
