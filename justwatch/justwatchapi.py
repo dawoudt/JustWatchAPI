@@ -34,4 +34,8 @@ class JustWatch:
 		header = {'User-Agent':'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
 		api_url = 'https://api.justwatch.com/titles/{}_{}/popular'.format(self.language, self.country)
 		r = requests.post(api_url, json=payload, headers=header)
+
+		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
+
 		return r.json()
