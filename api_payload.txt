@@ -23,7 +23,9 @@
 							}
 						},
 		"cinema_release": -- null,
-		"query": -- null or title as string 
+		"query": -- null or title as string
+		"page": --null or integer value
+                "page_size": --null or integer value
 		}
 	shortened values 
 

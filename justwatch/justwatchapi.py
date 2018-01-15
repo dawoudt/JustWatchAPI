@@ -24,7 +24,9 @@ class JustWatch:
 			"max_price":null,
 			"scoring_filter_types":null,
 			"cinema_release":null,
-			"query":null
+			"query":null,
+			"page":null,
+			"page_size":null
 		}
 		for key, value in self.kwargs.items():
 			if key in payload.keys():
