@@ -37,5 +37,33 @@ results_by_multiple = just_watch.search_for_item(
     content_types=['movie'], 
     monetization_types=['free'])
 ```
+
+#### get list of genres and codes
+```python
+just_watch = JustWatch(country='GB')
+genre_details = just_watch.get_genres()
+
+```
+
+#### get list of providers for a country
+```python
+just_watch = JustWatch(country='DE')
+provider_details = just_watch.get_providers()
+
+```
+
+#### get further details on a movie or tv program
+
+Based on title id found in previous search
+
+```python
+just_watch = JustWatch(country='GB')
+megamind = just_watch.get_title(title_id=103561)
+dark = just_watch.get_title(title_id=55668, content_type='show')
+
+```
+
+
+
 ##### Note: Default country is AU
 #### Read api_payload.txt for more information
