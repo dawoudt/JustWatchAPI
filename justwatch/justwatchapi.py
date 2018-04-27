@@ -79,3 +79,13 @@ class JustWatch:
 
 		return r.json()
         
+	def get_season(self, season_id):
+
+		header = HEADER
+		api_url = 'https://apis.justwatch.com/content/titles/show_season/{}/locale/{}'.format(season_id, self.locale)
+		r = requests.get(api_url, headers=header)
+
+		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
+
+		return r.json()
