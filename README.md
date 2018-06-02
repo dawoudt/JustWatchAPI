@@ -63,7 +63,15 @@ dark = just_watch.get_title(title_id=55668, content_type='show')
 
 ```
 
+#### get further defails on a specific season of a tv program
 
+`season_id` can be found in the response from get_title of a tv program
+
+```python
+just_watch = JustWatch(country='GB')
+hannibal_season2 = just_watch.get_season(season_id=20236)
+
+```
 
 ##### Note: Default country is AU
 #### Read api_payload.txt for more information
