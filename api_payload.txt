@@ -1,6 +1,7 @@
 """
 	-- json payload values --
 	values can be null (None), or each or all items in corresponding list
+		"age_certifications": -- null or country specific list
 		"content_types": -- null or ['movie', 'show']
 		"presentation_types": -- null or ['hd', 'sd']
 		"providers": -- null or ["mbi", "qfs", "tpl", "msf", "pls", "ply", "itu", "ddi", "crk", "qfx", "prs", "stn", "nfx"]
@@ -8,9 +9,10 @@
 		"languages": -- null
 		"release_year_from": -- null or year > 1900
 		"release_year_until": -- null or year < current year
-		"monetization_types": -- null or ["flatrate", "ads", "rent", "buy", "free"]
+		"monetization_types": -- null or ["flatrate", "ads", "rent", "buy", "free", "cinema"]
 		"min_price": -- null or integer value
 		"max_price": -- null or integer value,
+		"nationwide_cinema_releases_only": -- null or True or False
 		"scoring_filter_types": -- null or
 						{
 						"imdb:score":
@@ -25,7 +27,8 @@
 		"cinema_release": -- null,
 		"query": -- null or title as string
 		"page": --null or integer value
-                "page_size": --null or integer value
+		"page_size": --null or integer value
+		"timeline_type": TBC
 		}
 	shortened values 
 
