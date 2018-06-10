@@ -6,12 +6,16 @@ from babel import Locale
 HEADER = {'User-Agent':'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
 
 class JustWatch:
-	def __init__(self, country='AU', **kwargs):
+	def __init__(self, country='AU', use_sessions=True, **kwargs):
 		self.kwargs = kwargs
 		self.country = country
 		self.language = Locale.parse('und_{}'.format(self.country)).language
 		self.locale = self.language + '_' + self.country
 		self.kwargs_cinema = []
+		if use_sessions:
+			self.requests = requests.Session()
+		else:
+			self.requests = requests
 		
 	def search_for_item(self, **kwargs):
 		if kwargs:
@@ -44,7 +48,7 @@ class JustWatch:
 				print('{} is not a valid keyword'.format(key))
 		header = HEADER
 		api_url = 'https://api.justwatch.com/titles/{}/popular'.format(self.locale)
-		r = requests.post(api_url, json=payload, headers=header)
+		r = self.requests.post(api_url, json=payload, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -55,7 +59,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/providers/locale/{}'.format(self.locale)
-		r = requests.get(api_url, headers=header)
+		r = self.requests.get(api_url, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -66,7 +70,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/genres/locale/{}'.format(self.locale)
-		r = requests.get(api_url, headers=header)
+		r = self.requests.get(api_url, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -77,7 +81,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/titles/{}/{}/locale/{}'.format(content_type, title_id, self.locale)
-		r = requests.get(api_url, headers=header)
+		r = self.requests.get(api_url, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -89,7 +93,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/titles/show_season/{}/locale/{}'.format(season_id, self.locale)
-		r = requests.get(api_url, headers=header)
+		r = self.requests.get(api_url, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -118,7 +122,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/titles/{}/{}/showtimes'.format(content_type, title_id)
-		r = requests.get(api_url, params=payload, headers=header)
+		r = self.requests.get(api_url, params=payload, headers=header)
 
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
@@ -148,7 +152,7 @@ class JustWatch:
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/cinemas/{}'.format(self.locale)
-		r = requests.get(api_url, params=payload, headers=header)
+		r = self.requests.get(api_url, params=payload, headers=header)
 
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
@@ -169,7 +173,7 @@ class JustWatch:
 
 		#this throws an error if you go too many weeks forward, so return a blank payload if we hit an error
 		try:        
-			r = requests.get(api_url, params=payload, headers=header)
+			r = self.requests.get(api_url, params=payload, headers=header)
 
 			# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 			r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -183,7 +187,7 @@ class JustWatch:
 		header = HEADER
 		payload = { 'country': self.country, 'object_type': content_type }
 		api_url = 'https://apis.justwatch.com/content/age_certifications'
-		r = requests.get(api_url, params=payload, headers=header)
+		r = self.requests.get(api_url, params=payload, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
