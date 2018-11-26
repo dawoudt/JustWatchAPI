@@ -42,7 +42,7 @@ from setuptools import setup
 
 setup(
     name = "JustWatch",
-    version = "0.4.1",
+    version = "0.5.0",
     author = "Dawoud Tabboush",
     author_email = "dtabboush@gmail.com",
     description = ("A simple api for justwatch.com"),
