@@ -1,5 +1,6 @@
 # JustWatchAPI
-https://travis-ci.com/dawoudt/JustWatchAPI.svg?branch=master
+[![Build Status](https://travis-ci.com/dawoudt/JustWatchAPI.svg?branch=master)](https://travis-ci.com/dawoudt/JustWatchAPI)
+
 
 JustWatch.com Python 3 API
 
