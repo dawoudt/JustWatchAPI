@@ -47,7 +47,7 @@ class JustWatch:
 			else:
 				print('{} is not a valid keyword'.format(key))
 		header = HEADER
-		api_url = 'https://api.justwatch.com/titles/{}/popular'.format(self.locale)
+		api_url = 'https://apis.justwatch.com/content/titles/{}/popular'.format(self.locale)
 		r = self.requests.post(api_url, json=payload, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
