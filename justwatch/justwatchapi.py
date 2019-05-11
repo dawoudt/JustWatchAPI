@@ -5,18 +5,27 @@ from babel import Locale
 
 HEADER = {'User-Agent':'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
 
-class JustWatch:
+class JustWatch:		
 	def __init__(self, country='AU', use_sessions=True, **kwargs):
 		self.kwargs = kwargs
 		self.country = country
 		self.language = Locale.parse('und_{}'.format(self.country)).language
-		self.locale = self.language + '_' + self.country
 		self.kwargs_cinema = []
 		if use_sessions:
 			self.requests = requests.Session()
 		else:
 			self.requests = requests
+		self.locale = self.get_locale(self.country)
 		
+	def get_locale(self, country):
+		api_url = 'https://apis.justwatch.com/content/locales/state'
+		r = self.requests.get(api_url, headers=HEADER)
+		results = r.json()
+		for i in results:
+			if i['iso_3166_2'] == country:
+				return i['full_locale']
+		return self.language + '_' + self.country
+				
 	def search_for_item(self, **kwargs):
 		if kwargs:
 			self.kwargs = kwargs
@@ -193,4 +202,3 @@ class JustWatch:
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
-
