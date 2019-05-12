@@ -31,6 +31,47 @@ class TestJustWatchAPI(unittest.TestCase):
 
         self.assertEqual(search_item, first_result_title)
 
+    def test_locale_defaults_correctly(self):
+        ''' Test that locale defaults to en_AU '''
+
+        just_watch = JustWatch(country='NotRealCountry')
+        self.assertEqual(just_watch.locale, 'en_AU')
+        res = just_watch.search_for_item(query='the matrix', page_size=1)
+        self.assertIsNotNone(res)
+
+    def test_locale_works_with_full_country_name(self):
+        '''Test that full country name can be used to get locale '''
+
+        just_watch = JustWatch(country='Australia')
+        self.assertEqual(just_watch.locale, 'en_AU')
+        res = just_watch.search_for_item(query='the matrix', page_size=1)
+        self.assertIsNotNone(res)
+
+    def test_get_providers(self):
+        just_watch = JustWatch(country='US')
+        prov = just_watch.get_providers()
+        self.assertIsNotNone(prov)
+
+    def test_get_genres(self):
+        just_watch = JustWatch(country='US')
+        genres = just_watch.get_genres()
+        self.assertIsNotNone(genres)
+        self.assertGreater(len(genres), 2)
+
+    def test_get_title(self):
+        the_matrix_title_id = '10'
+        just_watch = JustWatch()
+        titles = just_watch.get_title(the_matrix_title_id)
+        self.assertIsNotNone(titles)
+        self.assertGreater(len(titles), 0)
+
+    def test_search_title_id(self):
+        just_watch = JustWatch()
+        title_ids = just_watch.search_title_id(query='the matrix')
+        self.assertIn('The Matrix', title_ids.keys())
+
+
+            
 
 if __name__ == '__main__':
     unittest.main()

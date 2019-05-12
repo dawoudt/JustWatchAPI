@@ -1,34 +1,64 @@
 from datetime import datetime
 from datetime import timedelta
 import requests
-from babel import Locale
+import sys
+
 
 HEADER = {'User-Agent':'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
 
-class JustWatch:		
+
+class JustWatch:	
+	api_base_template = "https://apis.justwatch.com/content/{path}"
+
 	def __init__(self, country='AU', use_sessions=True, **kwargs):
 		self.kwargs = kwargs
 		self.country = country
-		self.language = Locale.parse('und_{}'.format(self.country)).language
 		self.kwargs_cinema = []
-		if use_sessions:
-			self.requests = requests.Session()
-		else:
-			self.requests = requests
-		self.locale = self.get_locale(self.country)
+		self.requests = requests.Session() if use_sessions else requests
+		self.locale = self.set_locale()
+
+
+	def __del__(self):
+		''' Should really use context manager
+			but this should do without changing functionality. 
+		'''
+		if isinstance(self.requests, requests.Session):
+		    self.requests.close()
+
 		
-	def get_locale(self, country):
-		api_url = 'https://apis.justwatch.com/content/locales/state'
+	def set_locale(self):
+		warn = '\nWARN: Unable to locale for {}! Defaulting to en_AU\n'
+		default_locale = 'en_AU'
+		path = 'locales/state'
+		api_url = self.api_base_template.format(path=path)
+		
 		r = self.requests.get(api_url, headers=HEADER)
-		results = r.json()
-		for i in results:
-			if i['iso_3166_2'] == country:
-				return i['full_locale']
-		return self.language + '_' + self.country
+		try:
+			r.raise_for_status()
+		except requests.exceptions.HTTPError:
+			sys.stderr.write(warn.format(self.country))
+			return default_locale
+		else:
+			results = r.json()
+
+		for result in results:
+			if result['iso_3166_2'] == self.country or \
+				result['country'] == self.country:
+
+				return result['full_locale']
+
+		sys.stderr.write(warn.format(self.country))
+		return default_locale
 				
-	def search_for_item(self, **kwargs):
+	def search_for_item(self, query=None, **kwargs):
+
+		path = 'titles/{}/popular'.format(self.locale)
+		api_url = self.api_base_template.format(path=path)
+
 		if kwargs:
 			self.kwargs = kwargs
+		if query:
+			self.kwargs.update({'query': query})
 		null = None
 		payload = {
 			"age_certifications":null,
@@ -55,9 +85,7 @@ class JustWatch:
 				payload[key] = value
 			else:
 				print('{} is not a valid keyword'.format(key))
-		header = HEADER
-		api_url = 'https://apis.justwatch.com/content/titles/{}/popular'.format(self.locale)
-		r = self.requests.post(api_url, json=payload, headers=header)
+		r = self.requests.post(api_url, json=payload, headers=HEADER)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
@@ -65,37 +93,44 @@ class JustWatch:
 		return r.json()
 
 	def get_providers(self):
-
-		header = HEADER
-		api_url = 'https://apis.justwatch.com/content/providers/locale/{}'.format(self.locale)
-		r = self.requests.get(api_url, headers=header)
-
-		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		path = 'providers/locale/{}'.format(self.locale)
+		api_url = self.api_base_template.format(path=path)
+		r = self.requests.get(api_url, headers=HEADER)
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
         
 	def get_genres(self):
-
-		header = HEADER
-		api_url = 'https://apis.justwatch.com/content/genres/locale/{}'.format(self.locale)
-		r = self.requests.get(api_url, headers=header)
-
-		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		path = 'genres/locale/{}'.format(self.locale)
+		api_url = self.api_base_template.format(path=path)
+		r = self.requests.get(api_url, headers=HEADER)
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
 
 	def get_title(self, title_id, content_type='movie'):
+		path = 'titles/{content_type}/{title_id}/locale/{locale}'.format(content_type=content_type,
+																		 title_id=title_id,
+																		 locale=self.locale)
 
-		header = HEADER
-		api_url = 'https://apis.justwatch.com/content/titles/{}/{}/locale/{}'.format(content_type, title_id, self.locale)
-		r = self.requests.get(api_url, headers=header)
-
-		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		api_url = self.api_base_template.format(path=path)
+		r = self.requests.get(api_url, headers=HEADER)
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
+
+	def search_title_id(self, query):
+		''' Returns a dictionary of titles returned 
+		from search and their respective ID's
+
+		>>> ...
+		>>> just_watch.get_title_id('The Matrix')
+		{'The Matrix': 10, ... }
+
+		'''
+
+		results = self.search_for_item(query)
+		return {item['title']: item['id'] for item in results['items']}
 
         
 	def get_season(self, season_id):
