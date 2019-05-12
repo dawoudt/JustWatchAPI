@@ -110,8 +110,8 @@ class JustWatch:
 
 	def get_title(self, title_id, content_type='movie'):
 		path = 'titles/{content_type}/{title_id}/locale/{locale}'.format(content_type=content_type,
-																		 title_id=title_id,
-																		 locale=self.locale)
+										 title_id=title_id,
+										 locale=self.locale)
 
 		api_url = self.api_base_template.format(path=path)
 		r = self.requests.get(api_url, headers=HEADER)
