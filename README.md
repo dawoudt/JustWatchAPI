@@ -65,6 +65,16 @@ dark = just_watch.get_title(title_id=55668, content_type='show')
 
 ```
 
+#### You can query for title IDs
+
+```python
+just_watch = JustWatch(country='GB')
+the_matrix = just_watch.get_title_id(query='the matrix')
+
+{'The Matrix': 10, 'The Matrix Revisited': 30701, ...}
+
+```
+
 #### get further defails on a specific season of a tv program
 
 `season_id` can be found in the response from get_title of a tv program
