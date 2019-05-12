@@ -134,3 +134,7 @@ showings_three_weeks = just_watch.get_upcoming_cinema(weeks_offset=3, nationwide
 
 ##### Note: Default country is AU
 #### Read api_payload.txt for more information
+
+## Contributions
+### Contributions are welcome!
+Please write unit tests for any new functionality :)
