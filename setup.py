@@ -42,7 +42,7 @@ from setuptools import setup
 
 setup(
     name = "JustWatch",
-    version = "0.5.0",
+    version = "0.5.1",
     author = "Dawoud Tabboush",
     author_email = "dtabboush@gmail.com",
     description = ("A simple api for justwatch.com"),
@@ -53,8 +53,7 @@ setup(
     long_description=desc,
     platforms='any',
     install_requires=[
-        'requests>=2.0',
-        'babel>=2.3.3'
+        'requests>=2.0'
     ],
     classifiers=[
         'Development Status :: 4 - Beta',
