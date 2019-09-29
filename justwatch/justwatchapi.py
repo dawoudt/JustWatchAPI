@@ -237,3 +237,12 @@ class JustWatch:
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
+
+	def get_person_detail(self, person_id):
+		path = 'titles/person/{person_id}/locale/{locale}'.format(person_id=person_id, locale=self.locale)
+		api_url = self.api_base_template.format(path=path)
+
+		r = self.requests.get(api_url, headers=HEADER)
+		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
+
+		return r.json()
