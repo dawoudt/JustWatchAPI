@@ -78,7 +78,8 @@ class JustWatch:
 			"query":null,
 			"page":null,
 			"page_size":null,
-			"timeline_type":null
+			"timeline_type":null,
+			"person_id":null
 		}
 		for key, value in self.kwargs.items():
 			if key in payload.keys():
