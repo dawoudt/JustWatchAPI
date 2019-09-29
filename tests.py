@@ -70,6 +70,10 @@ class TestJustWatchAPI(unittest.TestCase):
         title_ids = just_watch.search_title_id(query='the matrix')
         self.assertIn('The Matrix', title_ids.keys())
 
+    def test_person_detail(self):
+        just_watch = JustWatch()
+        person_detail = just_watch.get_person_detail(3036)
+        self.assertIn('Keanu Reeves', person_detail.values())
 
             
 

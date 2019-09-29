@@ -78,7 +78,8 @@ class JustWatch:
 			"query":null,
 			"page":null,
 			"page_size":null,
-			"timeline_type":null
+			"timeline_type":null,
+			"person_id":null
 		}
 		for key, value in self.kwargs.items():
 			if key in payload.keys():
@@ -234,6 +235,15 @@ class JustWatch:
 		r = self.requests.get(api_url, params=payload, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
+
+		return r.json()
+
+	def get_person_detail(self, person_id):
+		path = 'titles/person/{person_id}/locale/{locale}'.format(person_id=person_id, locale=self.locale)
+		api_url = self.api_base_template.format(path=path)
+
+		r = self.requests.get(api_url, headers=HEADER)
 		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
 
 		return r.json()
