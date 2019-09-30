@@ -51,6 +51,13 @@ results_by_multiple = just_watch.search_for_item(
     monetization_types=['free'])
 ```
 
+#### search for a person
+```python
+just_watch = JustWatch()
+results = just_watch.search_for_item(query="Keanu Reeves",
+    content_types=['person'])
+```
+
 #### search for items of a person
 ```python
 just_watch = JustWatch()
