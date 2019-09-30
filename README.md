@@ -51,6 +51,12 @@ results_by_multiple = just_watch.search_for_item(
     monetization_types=['free'])
 ```
 
+#### search for items of a person
+```python
+just_watch = JustWatch()
+titles_person = just_watch.search_for_item(person_id=3036)
+```
+
 #### get list of genres and codes
 ```python
 just_watch = JustWatch(country='GB')
@@ -143,7 +149,18 @@ showings_last_week = just_watch.get_upcoming_cinema(weeks_offset=-1, nationwide_
 showings_three_weeks = just_watch.get_upcoming_cinema(weeks_offset=3, nationwide_cinema_releases_only=False)
 ```
 
-##### Note: Default country is AU
+#### get person details
+
+```python
+        just_watch = JustWatch()
+        person_detail = just_watch.get_person_detail(3036)
+```
+
+##### Notes: 
+* Default country is AU
+* `person_id` is a justwatch specific id and does not work with imdb or tmdb ids. 
+You can get the `person_id` for example from the credits of a title or from search.
+
 #### Read api_payload.txt for more information
 
 ## Contributions
