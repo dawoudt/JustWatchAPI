@@ -68,7 +68,7 @@ class TestJustWatchAPI(unittest.TestCase):
     def test_search_title_id(self):
         just_watch = JustWatch()
         title_ids = just_watch.search_title_id(query='the matrix')
-        self.assertIn('The Matrix', title_ids.keys())
+        self.assertIn('The Matrix', title_ids.values())
 
     def test_person_detail(self):
         just_watch = JustWatch()
