@@ -131,7 +131,7 @@ class JustWatch:
 		'''
 
 		results = self.search_for_item(query)
-		return {item['title']: item['id'] for item in results['items']}
+		return {item['id']: item['title'] for item in results['items']}
 
         
 	def get_season(self, season_id):
