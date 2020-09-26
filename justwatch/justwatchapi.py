@@ -4,7 +4,7 @@ import requests
 import sys
 
 
-HEADER = {'User-Agent':'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
+HEADER = {'User-Agent':'JustWatch client (github.com/dawoudt/JustWatchAPI)'}
 
 
 class JustWatch:	
