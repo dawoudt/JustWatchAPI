@@ -93,7 +93,7 @@ dark = just_watch.get_title(title_id=55668, content_type='show')
 
 ```python
 just_watch = JustWatch(country='GB')
-the_matrix = just_watch.get_title_id(query='the matrix')
+the_matrix = just_watch.search_title_id(query='the matrix')
 
 {'The Matrix': 10, 'The Matrix Revisited': 30701, ...}
 
