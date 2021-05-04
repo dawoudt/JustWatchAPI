@@ -7,7 +7,7 @@ class TestJustWatchAPI(unittest.TestCase):
     def test_header(self):
         ''' Assert header has not changed'''
 
-        expected_header = {'User-Agent': 'JustWatch Python client (github.com/dawoudt/JustWatchAPI)'}
+        expected_header = {'User-Agent': 'JustWatch client (github.com/dawoudt/JustWatchAPI)'}
         header = justwatchapi.HEADER
         self.assertEqual(header, expected_header)
 
