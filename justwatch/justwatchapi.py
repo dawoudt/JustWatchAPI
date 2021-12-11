@@ -133,11 +133,27 @@ class JustWatch:
 		results = self.search_for_item(query)
 		return {item['id']: item['title'] for item in results['items']}
 
-        
+
 	def get_season(self, season_id):
 
 		header = HEADER
 		api_url = 'https://apis.justwatch.com/content/titles/show_season/{}/locale/{}'.format(season_id, self.locale)
+		r = self.requests.get(api_url, headers=header)
+
+		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
+		r.raise_for_status()   # Raises requests.exceptions.HTTPError if r.status_code != 200
+
+		return r.json()
+
+
+	def get_episodes(self, show_id, page=''):
+		''' Fetches episodes details from the API, based on show_id.
+			API returns 200 episodes (from newest to oldest) but takes a 'page' param.
+		'''
+		header = HEADER
+		api_url = 'https://apis.justwatch.com/content/titles/show/{}/locale/{}/newest_episodes'.format(show_id, self.locale)
+		if page:
+			api_url += '?page={}'.format(page)
 		r = self.requests.get(api_url, headers=header)
 
 		# Client should deal with rate-limiting. JustWatch may send a 429 Too Many Requests response.
