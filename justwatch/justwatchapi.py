@@ -10,11 +10,12 @@ HEADER = {'User-Agent':'JustWatch client (github.com/dawoudt/JustWatchAPI)'}
 class JustWatch:	
 	api_base_template = "https://apis.justwatch.com/content/{path}"
 
-	def __init__(self, country='AU', use_sessions=True, **kwargs):
+	def __init__(self, country='AU', use_sessions=False, **kwargs):
 		self.kwargs = kwargs
 		self.country = country
 		self.kwargs_cinema = []
-		self.requests = requests.Session() if use_sessions else requests
+		self.requests = use_sessions if use_sessions else requests.Session()
+
 		self.locale = self.set_locale()
 
 
